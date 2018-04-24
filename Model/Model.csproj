@@ -42,6 +42,7 @@
     <Compile Include="BaseRequest.cs" />
     <Compile Include="BaseResponse.cs" />
     <Compile Include="Filter\WorkRecFilter.cs" />
+    <Compile Include="Model\StatisticalInfoModel.cs" />
     <Compile Include="Model\WorkRecModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

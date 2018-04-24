@@ -11,6 +11,7 @@ namespace IDLL
 {
    public  interface IWorkRecService
     {
-       BaseResponse<List<WorkRecModel>>  QueryRec(BaseRequest<WorkRecFilter> request );
+       BaseResponse<StatisticalInfoModel>  QueryRec(BaseRequest<WorkRecFilter> request );
+        BaseResponse SaveRec(WorkRecModel request);
     }
 }
