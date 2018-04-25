@@ -12,6 +12,7 @@ using IDLL;
 using DLL;
 using Model;
 using Model.Filter;
+using Model.Model;
 
 namespace MyWorkOvertime
 {
@@ -119,7 +120,7 @@ namespace MyWorkOvertime
         private void button2_Click(object sender, EventArgs e)
         {
             Form1.ActiveForm.Height = Form1.ActiveForm.Height == 580 ? 760 : 580;
-            button2.Text = Form1.ActiveForm.Height == 580 ? "隐藏" : "显示";
+            button2.Text = Form1.ActiveForm.Height == 760 ? "隐藏" : "显示";
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -149,7 +150,7 @@ namespace MyWorkOvertime
         {
             if(!string.IsNullOrEmpty(dateTimePicker3.Text)&& !string.IsNullOrEmpty(dateTimePicker4.Text))
             {
-                textBox1.Text = (DateTime.Parse(dateTimePicker3.Text).Hour - DateTime.Parse(dateTimePicker4.Text).Hour).ToString();
+                textBox1.Text = (DateTime.Parse(dateTimePicker4.Text).Hour - DateTime.Parse(dateTimePicker3.Text).Hour).ToString();
             }
         }
 
@@ -157,7 +158,31 @@ namespace MyWorkOvertime
         {
             if (!string.IsNullOrEmpty(dateTimePicker3.Text) && !string.IsNullOrEmpty(dateTimePicker4.Text))
             {
-                textBox1.Text = (DateTime.Parse(dateTimePicker3.Text).Hour - DateTime.Parse(dateTimePicker4.Text).Hour).ToString();
+                textBox1.Text = (DateTime.Parse(dateTimePicker4.Text).Hour - DateTime.Parse(dateTimePicker3.Text).Hour).ToString();
+            }
+        }
+
+        private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var cells = dataGridView1.SelectedRows[0].Cells ;
+            var resquest = sevice.SaveRec(new Model.Model.WorkRecModel()
+            {
+                IsDelete = (bool)cells["IsDelete"].Value,
+                IsUse =true,
+                Rmark = cells["Rmark"].Value.ToString(),
+                EndTime =(DateTime) cells["EndTime"].Value,
+                StartTime = (DateTime)cells["StartTime"].Value,
+                Hour = (int)cells["Hour"].Value,
+                Id= (int)cells["Id"].Value,
+            });
+            if (resquest.ResultCode >= 0)
+            {
+                nowPage = 1;
+                GetWorkRec(nowPage);
+            }
+            else
+            {
+                MessageBox.Show("操作失败");
             }
         }
     }

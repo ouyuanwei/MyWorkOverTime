@@ -19,6 +19,8 @@ namespace DLL
             var resquest = new BaseResponse<StatisticalInfoModel>();
             try
             {
+                var pageSize = request.PageSize;
+                request.PageSize = -1;
                 var x= base.Query<workrec, WorkRecModel>(request, (q) =>
                   {
                       if (request.Data.EndTime.HasValue) q = q.Where(m => m.EndTime < request.Data.EndTime);
@@ -39,7 +41,7 @@ namespace DLL
                 resquest.Data.OverdueHour = x.Where(m => m.IsUse != true && m.StartTime < date).Sum(m => m.Hour);
                 resquest.Data.EffectiveHour= x.Where(m => m.IsUse != true && m.StartTime >= date).Sum(m => m.Hour);
 
-
+                request.PageSize = pageSize;
                 if (request!=null && request.PageSize > 0)
                 {
                     resquest.Data.RecList = x.Skip((request.CurrentPage - 1) * request.PageSize).Take(request.PageSize).ToList();
